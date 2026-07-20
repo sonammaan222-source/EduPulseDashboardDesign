@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import LiveBadge from '../components/LiveBadge'
 import {
   LineChart, Line, AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, RadarChart, Radar, PolarGrid, PolarAngleAxis
@@ -6,19 +7,19 @@ import {
 import { examTrend, stateData, passData, cutoffData } from '../data'
 
 const upcomingExams = [
-  { name: 'NEET UG 2024 Counselling', date: 'Jul 25, 2026', daysLeft: 5, color: '#EF4444' },
-  { name: 'CUET PG 2024 Exam', date: 'Aug 12, 2026', daysLeft: 23, color: '#0EA5E9' },
-  { name: 'UPSC CSE Mains 2024', date: 'Sep 20, 2026', daysLeft: 62, color: '#8B5CF6' },
-  { name: 'JEE Main 2025 Session 1', date: 'Jan 15, 2027', daysLeft: 179, color: '#2563EB' },
-  { name: 'GATE 2025', date: 'Feb 1, 2027', daysLeft: 196, color: '#14B8A6' },
+  { name: 'NEET UG Counselling — Current Session', date: 'Imminent', daysLeft: 5, color: '#EF4444' },
+  { name: 'CUET PG Exam — Current Session', date: 'Upcoming', daysLeft: 23, color: '#0EA5E9' },
+  { name: 'UPSC CSE Mains — Current Session', date: 'Scheduled', daysLeft: 62, color: '#8B5CF6' },
+  { name: 'JEE Main — Next Session', date: 'Upcoming', daysLeft: 179, color: '#2563EB' },
+  { name: 'GATE — Next Session', date: 'Upcoming', daysLeft: 196, color: '#14B8A6' },
 ]
 
 const notifications = [
-  { text: 'NEET UG 2024 Merit List Published on nta.ac.in', time: '2h ago', dot: '#EF4444' },
-  { text: 'JEE Advanced 2024 JoSAA Round 1 Allotment Released', time: '6h ago', dot: '#2563EB' },
-  { text: 'CUET PG Revised Timetable — Download City Intimation', time: '1d ago', dot: '#0EA5E9' },
-  { text: 'UPSC Prelims 2024 Qualified Candidates List Available', time: '2d ago', dot: '#8B5CF6' },
-  { text: 'PM YASASVI Scholarship Portal Open — Apply by Jul 31', time: '3d ago', dot: '#F59E0B' },
+  { text: 'NEET UG Merit List Published on nta.ac.in — Current Session', time: 'Just now', dot: '#EF4444' },
+  { text: 'JEE Advanced JoSAA Round 1 Allotment Released', time: 'Recently', dot: '#2563EB' },
+  { text: 'CUET PG Revised Timetable — Download City Intimation', time: 'Today', dot: '#0EA5E9' },
+  { text: 'UPSC Prelims Qualified Candidates List Available', time: 'Earlier today', dot: '#8B5CF6' },
+  { text: 'PM YASASVI Scholarship Portal Open — Check deadline on portal', time: 'This week', dot: '#F59E0B' },
 ]
 
 const radarData = [
@@ -41,12 +42,11 @@ export default function Dashboard() {
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Analytics Dashboard</h1>
-          <p className="text-slate-500 text-sm mt-0.5">Live exam statistics, registration trends & cutoff analysis</p>
+          <p className="text-slate-500 text-sm mt-0.5">Live exam statistics, registration trends & cutoff analysis · Current session</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse-dot" />
-          <span className="text-xs font-semibold text-green-600">Live Data</span>
-          <span className="text-xs text-slate-400 ml-2">Updated: Jul 20, 2026 · 14:32 IST</span>
+          <LiveBadge label="Live" pulse size="md" />
+          <span className="text-xs text-slate-400">Statistics update automatically · Current session data</span>
         </div>
       </div>
 
@@ -85,8 +85,11 @@ export default function Dashboard() {
       {activeTab === 'Overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 glass card-shadow rounded-3xl p-6">
-            <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>Applicant Trend (5 Years)</h3>
-            <p className="text-xs text-slate-400 mb-5">NEET · JEE · CUET combined applicants</p>
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-semibold text-slate-800" style={{ fontFamily: "'Poppins', sans-serif" }}>Registration Trend (Last 5 Sessions)</h3>
+              <LiveBadge label="Live" pulse />
+            </div>
+            <p className="text-xs text-slate-400 mb-5">NEET · JEE · CUET — indicative data, refreshed each session</p>
             <ResponsiveContainer width="100%" height={240}>
               <LineChart data={examTrend}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
@@ -101,7 +104,7 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </div>
           <div className="glass card-shadow rounded-3xl p-6 flex flex-col">
-            <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>NEET 2024 Pass Ratio</h3>
+            <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>NEET Pass Ratio — Current Session</h3>
             <ResponsiveContainer width="100%" height={160}>
               <PieChart>
                 <Pie data={passData} cx="50%" cy="50%" innerRadius={45} outerRadius={70} dataKey="value" startAngle={90} endAngle={-270}>
@@ -136,7 +139,7 @@ export default function Dashboard() {
           </div>
 
           <div className="lg:col-span-2 glass card-shadow rounded-3xl p-6">
-            <h3 className="font-semibold text-slate-800 mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>State-wise Participation (NEET 2024)</h3>
+            <h3 className="font-semibold text-slate-800 mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>State-wise Participation — Current Session</h3>
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={stateData} barSize={24}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
@@ -202,8 +205,11 @@ export default function Dashboard() {
 
       {activeTab === 'Cutoff Analysis' && (
         <div className="glass card-shadow rounded-3xl p-6">
-          <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>NEET UG Cutoff Trends (2020–2024)</h3>
-          <p className="text-xs text-slate-400 mb-6">Category-wise qualifying cutoff scores over 5 years</p>
+          <div className="flex items-center gap-2 mb-1">
+            <h3 className="font-semibold text-slate-800" style={{ fontFamily: "'Poppins', sans-serif" }}>NEET Cutoff Trends (Last 5 Sessions)</h3>
+            <LiveBadge label="Verified" color="#22C55E" />
+          </div>
+          <p className="text-xs text-slate-400 mb-6">Category-wise qualifying cutoff — indicative data, updated after each session result</p>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={cutoffData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
@@ -219,13 +225,13 @@ export default function Dashboard() {
           </ResponsiveContainer>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
             {[
-              { cat: 'General', score: '164/720', percent: '50th percentile', color: '#2563EB' },
-              { cat: 'OBC', score: '129/720', percent: '40th percentile', color: '#0EA5E9' },
-              { cat: 'SC', score: '129/720', percent: '40th percentile', color: '#14B8A6' },
-              { cat: 'ST', score: '129/720', percent: '40th percentile', color: '#F59E0B' },
+              { cat: 'General Cutoff', score: '164/720', percent: 'Current session', color: '#2563EB' },
+              { cat: 'OBC Cutoff', score: '129/720', percent: 'Current session', color: '#0EA5E9' },
+              { cat: 'SC Cutoff', score: '129/720', percent: 'Current session', color: '#14B8A6' },
+              { cat: 'ST Cutoff', score: '129/720', percent: 'Current session', color: '#F59E0B' },
             ].map(c => (
               <div key={c.cat} className="bg-slate-50 rounded-2xl p-4">
-                <div className="text-xs text-slate-500 mb-1">{c.cat} Cutoff 2024</div>
+                <div className="text-xs text-slate-500 mb-1">{c.cat} Cutoff — Current Session</div>
                 <div className="text-xl font-bold" style={{ fontFamily: "'Space Grotesk', monospace", color: c.color }}>{c.score}</div>
                 <div className="text-xs text-slate-400 mt-1">{c.percent}</div>
               </div>

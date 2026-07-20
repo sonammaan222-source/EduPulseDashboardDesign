@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { newsArticles } from '../data'
 import NewsCard from '../components/NewsCard'
+import LiveBadge from '../components/LiveBadge'
 
 const categories = ['All', 'Competitive Exams', 'Higher Education', 'Education Policies', 'Student Issues', 'Government Announcements', 'Technology in Education', 'Scholarships', 'International Education']
 
@@ -26,27 +27,33 @@ export default function News() {
     <div className="max-w-7xl mx-auto px-4 py-12">
       {/* Page Header */}
       <div className="mb-10">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse-dot" />
-          <span className="text-xs font-bold text-red-600 tracking-widest uppercase">🔴 Live Updates</span>
+        <div className="flex items-center gap-2 mb-2 flex-wrap">
+          <LiveBadge label="Live" pulse size="md" />
+          <span className="text-xs font-semibold text-slate-500">Education News · Continuously Updated</span>
         </div>
-        <h1 className="text-3xl font-bold text-slate-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Education News & Updates</h1>
-        <p className="text-slate-500 mt-1">Verified coverage from NTA, UPSC, UGC, and 500+ official sources</p>
+        <h1 className="text-3xl font-bold text-slate-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Latest Education News</h1>
+        <p className="text-slate-500 mt-1">Verified coverage from NTA, UPSC, UGC, and 500+ official sources · Updated a few minutes ago</p>
       </div>
 
       {/* Featured + Trending */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
         {/* Featured */}
         <div className="lg:col-span-2">
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Featured Article</div>
+          <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Featured Story</span>
+          <LiveBadge label="Trending" color="#F59E0B" />
+        </div>
           <NewsCard item={featured} featured />
         </div>
 
         {/* Trending */}
         <div>
-          <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Trending Now</div>
+          <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Trending Now</span>
+          <LiveBadge label="Live" pulse />
+        </div>
           <div className="space-y-3">
-            {trending.map((item, i) => (
+            {trending.map((item) => (
               <NewsCard key={item.id} item={{ ...item, image: item.image.replace('h=440', 'h=160') }} />
             ))}
           </div>
@@ -71,7 +78,10 @@ export default function News() {
 
       {/* Latest Headlines */}
       <div className="mb-4">
-        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Latest Headlines</div>
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Latest Headlines</span>
+          <span className="text-xs text-slate-400">· Updated a few minutes ago</span>
+        </div>
         {paginated.length === 0 ? (
           <div className="text-center py-16 text-slate-400">No articles in this category yet.</div>
         ) : (

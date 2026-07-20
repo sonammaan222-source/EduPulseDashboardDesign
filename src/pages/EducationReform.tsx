@@ -1,13 +1,14 @@
 import { useNavigate } from 'react-router'
 import { newsArticles } from '../data'
 import NewsCard from '../components/NewsCard'
+import LiveBadge from '../components/LiveBadge'
 
 const reformStories = [
   {
     id: 'r1',
     headline: "NEP 2020: India's Most Ambitious Education Policy in 34 Years",
     category: 'Education Policies',
-    date: 'Jul 15, 2026',
+    date: 'Recently updated',
     readTime: '8 min read',
     image: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&h=440&fit=crop&auto=format',
     summary: 'The National Education Policy 2020 mandates multidisciplinary education, skill development, and mother-tongue instruction — reshaping how 26 crore students learn.',
@@ -17,7 +18,7 @@ const reformStories = [
     id: 'r2',
     headline: 'PM SHRI Schools: 14,500 Upgraded Institutions Leading NEP Implementation',
     category: 'Government Reform',
-    date: 'Jul 12, 2026',
+    date: 'Earlier this week',
     readTime: '5 min read',
     image: 'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&h=440&fit=crop&auto=format',
     summary: '14,500 PM Schools for Rising India (PM SHRI) selected for full NEP 2020 implementation, featuring labs, sports facilities, and counselling infrastructure.',
@@ -27,7 +28,7 @@ const reformStories = [
     id: 'r3',
     headline: 'Digital India Education: 3 Crore Students on DIKSHA Platform',
     category: 'Technology in Education',
-    date: 'Jul 8, 2026',
+    date: 'A few days ago',
     readTime: '4 min read',
     image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=440&fit=crop&auto=format',
     summary: 'DIKSHA (Digital Infrastructure for Knowledge Sharing) now serves 3 crore students with QR-coded textbooks, video lectures, and assessment tools.',
@@ -37,7 +38,7 @@ const reformStories = [
     id: 'r4',
     headline: 'Dropout Reduction: India Achieves 78% Gross Enrolment Ratio at Secondary Level',
     category: 'Student Issues',
-    date: 'Jul 5, 2026',
+    date: 'This week',
     readTime: '5 min read',
     image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&h=440&fit=crop&auto=format',
     summary: 'UDISE+ data shows significant improvements in secondary enrolment, attributed to mid-day meal expansion, free uniforms, and scholarship programmes.',
@@ -107,7 +108,7 @@ export default function EducationReform() {
                   { year: '2013', event: 'Invented the "Ice Stupa" — artificial glaciers to address Himalayan water scarcity, winner of Rolex Award', color: '#14B8A6' },
                   { year: '2018', event: 'Launched RAM (Real Alternatives Mission) for sustainable living, self-reliance & alternative education', color: '#22C55E' },
                   { year: '2023', event: '21-day fast for statehood and environmental protection of Ladakh, drawing national attention', color: '#F59E0B' },
-                  { year: '2024', event: "Continued advocacy for education reform, constitutional protections, and Ladakh's ecological rights", color: '#8B5CF6' },
+                  { year: 'Now', event: "Continued advocacy for education reform, constitutional protections, and Ladakh's ecological rights", color: '#8B5CF6' },
                 ].map(item => (
                   <div key={item.year} className="flex gap-4">
                     <span className="inline-block w-12 text-center text-xs font-bold py-1 rounded-lg text-white flex-shrink-0 h-fit" style={{ background: item.color, fontFamily: "'Space Grotesk', monospace" }}>{item.year}</span>
@@ -124,7 +125,10 @@ export default function EducationReform() {
 
         {/* Reform Stories Grid */}
         <div className="mb-12">
-          <h2 className="text-xl font-bold text-slate-900 mb-6" style={{ fontFamily: "'Poppins', sans-serif" }}>Reform Stories</h2>
+          <div className="flex items-center gap-3 mb-6">
+            <h2 className="text-xl font-bold text-slate-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Reform Stories</h2>
+            <LiveBadge label="Verified Source" color="#22C55E" />
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
             {reformStories.map(story => (
               <div key={story.id} className="glass card-shadow rounded-2xl overflow-hidden hover:card-shadow-hover transition-all duration-300 hover:-translate-y-1 group cursor-pointer"

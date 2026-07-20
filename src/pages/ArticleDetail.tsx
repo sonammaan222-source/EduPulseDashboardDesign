@@ -1,11 +1,14 @@
 import { useParams, useNavigate } from 'react-router'
 import { newsArticles } from '../data'
 import NewsCard from '../components/NewsCard'
+import LiveBadge from '../components/LiveBadge'
+import { getTimestamp } from '../utils/time'
 
 export default function ArticleDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const article = newsArticles.find(a => a.id === Number(id))
+  const ts = article ? getTimestamp(article.id) : null
 
   if (!article) {
     return (
@@ -35,16 +38,17 @@ export default function ArticleDetail() {
             ← Back to News
           </button>
 
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-2 mb-4 flex-wrap">
             <span className="text-xs font-bold text-white px-3 py-1 rounded-full" style={{ background: article.color }}>{article.category}</span>
-            <span className="text-xs text-slate-400">{article.date}</span>
-            <span className="text-xs text-slate-400">·</span>
+            {article.badge && <LiveBadge label={article.badge} color={article.badgeColor} pulse={article.badge === 'Live' || article.badge === 'Breaking'} />}
             <span className="text-xs text-slate-400 flex items-center gap-1">
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0114 0z" />
               </svg>
               {article.readTime}
             </span>
+            {ts && <span className="text-xs text-slate-400">· Updated {ts.label}</span>}
+            <span className="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1">✓ {article.source}</span>
           </div>
 
           <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 leading-snug mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>

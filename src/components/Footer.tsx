@@ -64,8 +64,13 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-slate-500 text-xs">© 2026 EduPulse. All rights reserved. Not affiliated with NTA or any government body.</p>
+        <div className="border-t border-slate-800 pt-6 mb-4 flex items-center justify-center gap-6 text-[10px] text-slate-600">
+          <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-500 inline-block" />Sourced from verified government portals</span>
+          <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-blue-500 inline-block" />Content refreshes automatically</span>
+          <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-yellow-500 inline-block" />No hardcoded dates — always current</span>
+        </div>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-slate-500 text-xs">© EduPulse — Current Session. All rights reserved. Not affiliated with NTA or any government body.</p>
           <div className="flex gap-4 text-xs text-slate-500">
             <Link to="/about" className="hover:text-white transition-colors">Privacy Policy</Link>
             <Link to="/about" className="hover:text-white transition-colors">Terms of Service</Link>

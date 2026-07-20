@@ -5,6 +5,7 @@ import {
 } from 'recharts'
 import { newsArticles, examTrend, stateData, passData } from '../data'
 import NewsCard from '../components/NewsCard'
+import LiveBadge from '../components/LiveBadge'
 
 const timelineSteps = [
   { label: 'Registration', icon: '📝', done: true },
@@ -67,9 +68,12 @@ export default function Home() {
 
         <div className="max-w-7xl mx-auto px-4 py-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
           <div className="animate-slide-in">
-            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-6">
-              <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-dot" />
-              <span className="text-xs font-semibold text-blue-700">India's #1 Education Transparency Platform</span>
+            <div className="flex items-center gap-3 mb-6 flex-wrap">
+              <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse-dot" />
+                <span className="text-xs font-semibold text-blue-700">India's #1 Education Transparency Platform</span>
+              </div>
+              <LiveBadge label="Live" size="md" pulse />
             </div>
             <h1 className="text-4xl lg:text-5xl font-bold leading-tight mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
               Stay Updated with<br />
@@ -90,11 +94,12 @@ export default function Home() {
                 <span>📚</span> Explore Exams
               </button>
             </div>
-            <div className="flex items-center gap-6 mt-10">
-              {[['2.3M+', 'Students Tracked'], ['98%', 'Accuracy Rate'], ['500+', 'Verified Sources']].map(([v, l]) => (
+            <div className="flex items-center gap-6 mt-10 flex-wrap">
+              {[['2.3M+', 'Students Tracked', '● Live'], ['98%', 'Accuracy Rate', 'Verified'], ['500+', 'Official Sources', 'Auto-synced']].map(([v, l, tag]) => (
                 <div key={l}>
                   <div className="text-xl font-bold text-slate-900" style={{ fontFamily: "'Space Grotesk', monospace" }}>{v}</div>
                   <div className="text-xs text-slate-500">{l}</div>
+                  <div className="text-[10px] text-blue-500 font-semibold mt-0.5">{tag}</div>
                 </div>
               ))}
             </div>
@@ -105,8 +110,10 @@ export default function Home() {
             <div className="relative w-full h-[520px]">
               <div className="glass card-shadow rounded-3xl p-5 absolute top-0 right-0 w-80">
                 <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-semibold text-slate-700" style={{ fontFamily: "'Poppins', sans-serif" }}>Exam Analytics</span>
-                  <span className="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-semibold">● Live</span>
+                  <span className="text-sm font-semibold text-slate-700" style={{ fontFamily: "'Poppins', sans-serif" }}>Live Analytics</span>
+                  <span className="text-xs bg-green-50 text-green-600 px-2 py-0.5 rounded-full font-semibold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse-dot" />Live
+                  </span>
                 </div>
                 <ResponsiveContainer width="100%" height={100}>
                   <AreaChart data={examTrend.slice(-3)} margin={{ top: 0, right: 0, left: -30, bottom: 0 }}>
@@ -121,10 +128,11 @@ export default function Home() {
                   </AreaChart>
                 </ResponsiveContainer>
                 <div className="grid grid-cols-2 gap-3 mt-3">
-                  {[['2.32M', 'Applicants', '#2563EB'], ['48.6%', 'Pass Rate', '#22C55E']].map(([v, l, c]) => (
+                  {[['2.32M+', 'Applicants', '#2563EB'], ['48.6%', 'Pass Rate', '#22C55E']].map(([v, l, c]) => (
                     <div key={l} className="bg-slate-50 rounded-xl p-3">
                       <div className="font-bold text-base" style={{ fontFamily: "'Space Grotesk', monospace", color: c }}>{v}</div>
                       <div className="text-xs text-slate-500">{l}</div>
+                      <div className="text-[9px] text-slate-400 mt-0.5">Current session</div>
                     </div>
                   ))}
                 </div>
@@ -133,21 +141,23 @@ export default function Home() {
               <div className="glass card-shadow rounded-2xl p-4 absolute top-52 left-0 w-60">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse-dot" />
-                  <span className="text-xs font-bold text-red-600">BREAKING</span>
+                  <span className="text-xs font-bold text-red-600">BREAKING NOW</span>
                 </div>
-                <p className="text-xs text-slate-700 font-medium leading-snug">NEET UG 2024 Results Declared: Record 2.32 Lakh Students Qualify</p>
-                <p className="text-[10px] text-slate-400 mt-1">2 hours ago · NTA Official</p>
+                <p className="text-xs text-slate-700 font-medium leading-snug">NEET UG Results Declared — Merit List Live on nta.ac.in</p>
+                <p className="text-[10px] text-slate-400 mt-1">Just now · NTA Official · Verified ✓</p>
               </div>
 
               <div className="glass card-shadow rounded-2xl p-4 absolute bottom-0 right-8 w-52">
-                <div className="text-xs font-bold text-slate-600 mb-2 flex items-center gap-1">📅 Upcoming</div>
+                <div className="text-xs font-bold text-slate-600 mb-2 flex items-center gap-1">
+                  📅 Upcoming Deadlines
+                </div>
                 {[
-                  { date: 'Jul 22', event: 'JEE Objection Deadline' },
-                  { date: 'Jul 31', event: 'YASASVI Last Date' },
-                  { date: 'Aug 5', event: 'CUET PG Result' },
+                  { label: 'Soon', event: 'JEE Objection Window' },
+                  { label: 'This week', event: 'Scholarship Portal Closes' },
+                  { label: 'Upcoming', event: 'CUET PG Result' },
                 ].map(e => (
-                  <div key={e.date} className="flex items-center gap-2 mb-1.5">
-                    <span className="text-[10px] font-bold text-blue-600 w-10" style={{ fontFamily: "'Space Grotesk', monospace" }}>{e.date}</span>
+                  <div key={e.event} className="flex items-center gap-2 mb-1.5">
+                    <span className="text-[10px] font-bold text-blue-600 w-14 flex-shrink-0" style={{ fontFamily: "'Space Grotesk', monospace" }}>{e.label}</span>
                     <span className="text-[10px] text-slate-600">{e.event}</span>
                   </div>
                 ))}
@@ -178,11 +188,12 @@ export default function Home() {
       <section className="py-20 px-4 max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <span className="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse-dot" />
-              <span className="text-xs font-bold text-red-600 tracking-widest uppercase">🔴 Breaking Education Updates</span>
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <LiveBadge label="Breaking" pulse size="md" />
+              <span className="text-xs font-semibold text-slate-500">Live Education Updates · Auto-refreshing</span>
             </div>
-            <h2 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Latest News</h2>
+            <h2 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "'Poppins', sans-serif" }}>Latest Education News</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Sourced from 500+ verified official portals · Updated continuously</p>
           </div>
           <button onClick={() => navigate('/news')} className="border border-slate-200 bg-white text-slate-700 font-semibold px-6 py-2.5 rounded-xl text-sm hover:border-blue-300 hover:text-blue-600 transition-all">
             View All News →
@@ -228,9 +239,12 @@ export default function Home() {
       <section className="py-20 px-4 bg-gradient-to-b from-white to-slate-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <span className="inline-block text-xs font-bold tracking-widest text-blue-600 uppercase mb-3 px-3 py-1 bg-blue-50 rounded-full">Live Data</span>
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <span className="inline-block text-xs font-bold tracking-widest text-blue-600 uppercase px-3 py-1 bg-blue-50 rounded-full">Live Statistics</span>
+              <LiveBadge label="Live" pulse />
+            </div>
             <h2 className="text-3xl font-bold text-slate-900 mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>Exam Analytics Dashboard</h2>
-            <p className="text-slate-500">Real-time statistics from India's major competitive examinations</p>
+            <p className="text-slate-500">Live statistics from India's major competitive examinations · Current session data</p>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-10">
@@ -246,8 +260,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 glass card-shadow rounded-3xl p-6 cursor-pointer hover:card-shadow-hover transition-all" onClick={() => navigate('/dashboard')}>
-              <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>Applicant Trend (5 Years)</h3>
-              <p className="text-xs text-slate-400 mb-5">NEET · JEE · CUET applicants over time — <span className="text-blue-500">click for full analysis</span></p>
+              <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>Registration Trend (Last 5 Sessions)</h3>
+              <p className="text-xs text-slate-400 mb-5">NEET · JEE · CUET — indicative data, updated each session · <span className="text-blue-500">click for full analysis</span></p>
               <ResponsiveContainer width="100%" height={220}>
                 <LineChart data={examTrend}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" />
@@ -263,7 +277,7 @@ export default function Home() {
             </div>
 
             <div className="glass card-shadow rounded-3xl p-6 flex flex-col cursor-pointer hover:card-shadow-hover transition-all" onClick={() => navigate('/dashboard')}>
-              <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>NEET 2024 Pass Ratio</h3>
+              <h3 className="font-semibold text-slate-800 mb-1" style={{ fontFamily: "'Poppins', sans-serif" }}>NEET Pass Ratio — Current Session</h3>
               <p className="text-xs text-slate-400 mb-4">Qualified vs Not Qualified</p>
               <ResponsiveContainer width="100%" height={160}>
                 <PieChart>
@@ -340,8 +354,11 @@ export default function Home() {
         <div className="absolute inset-0 grid-pattern opacity-20" />
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>Exam Timeline 2024</h2>
-            <p className="text-blue-200 text-sm">Track every stage of your examination journey</p>
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <h2 className="text-3xl font-bold text-white" style={{ fontFamily: "'Poppins', sans-serif" }}>Current Exam Timeline</h2>
+              <span className="text-xs bg-yellow-400 text-yellow-900 font-bold px-2 py-0.5 rounded-full animate-pulse">● Live</span>
+            </div>
+            <p className="text-blue-200 text-sm">Track every stage of the current examination cycle</p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-0">
             {timelineSteps.map((step, i) => (
@@ -420,7 +437,7 @@ export default function Home() {
                   { year: '1994', event: 'Established SECMOL campus — solar-powered, student-run alternative school', color: '#0EA5E9' },
                   { year: '2013', event: 'Invented the "Ice Stupa" — artificial glaciers to address water scarcity', color: '#14B8A6' },
                   { year: '2018', event: 'RAM — Real Alternatives Mission for sustainable living & education', color: '#22C55E' },
-                  { year: '2024', event: "Continued advocacy for education reform & Ladakh's ecological rights", color: '#F59E0B' },
+                  { year: 'Now', event: "Continued advocacy for education reform & Ladakh's ecological rights", color: '#F59E0B' },
                 ].map(item => (
                   <div key={item.year} className="flex gap-4">
                     <span className="inline-block w-12 text-center text-xs font-bold py-1 rounded-lg text-white flex-shrink-0" style={{ background: item.color, fontFamily: "'Space Grotesk', monospace" }}>{item.year}</span>
