@@ -1,0 +1,10 @@
+{
+  "description": "Access verified education news, exam updates, and analytics in one platform, empowering students and educators with essential resources and insights.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
