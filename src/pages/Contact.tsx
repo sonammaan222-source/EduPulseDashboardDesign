@@ -8,16 +8,48 @@ const faqs = [
   { q: 'Is EduPulse affiliated with NTA or any government body?', a: 'No. EduPulse is an independent journalism platform. We are not affiliated with NTA, UPSC, UGC, or any government agency.' },
 ]
 
+const WEBHOOK_URL = 'https://sonammaan.app.n8n.cloud/webhook/f1f35f3e-c04b-4997-a1a4-c94929a2e98a'
+
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [webhookResponse, setWebhookResponse] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (form.name && form.email && form.message) {
+    if (!form.name || !form.email || !form.message) return
+    setSending(true)
+    setError(null)
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: form.name, email: form.email, subject: form.subject, message: form.message }),
+      })
+      const contentType = res.headers.get('content-type') || ''
+      let responseText = ''
+      if (contentType.includes('application/json')) {
+        const json = await res.json()
+        responseText = typeof json === 'string' ? json : JSON.stringify(json, null, 2)
+      } else {
+        responseText = await res.text()
+      }
+      setWebhookResponse(responseText || null)
       setSubmitted(true)
+    } catch {
+      setError('Failed to send message. Please try again.')
+    } finally {
+      setSending(false)
     }
+  }
+
+  const handleReset = () => {
+    setSubmitted(false)
+    setWebhookResponse(null)
+    setForm({ name: '', email: '', subject: '', message: '' })
   }
 
   return (
@@ -35,13 +67,16 @@ export default function Contact() {
         {/* Contact Form */}
         <div className="lg:col-span-2">
           <h2 className="text-xl font-bold text-slate-900 mb-6" style={{ fontFamily: "'Poppins', sans-serif" }}>Send a Message</h2>
+
           {submitted ? (
             <div className="glass card-shadow rounded-3xl p-10 text-center">
               <div className="text-5xl mb-4">✅</div>
               <h3 className="text-xl font-bold text-slate-900 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>Message Received!</h3>
-              <p className="text-slate-500 text-sm">Thank you, {form.name}. We'll respond to {form.email} within 24 hours.</p>
-              <button onClick={() => { setSubmitted(false); setForm({ name: '', email: '', subject: '', message: '' }) }}
-                className="mt-6 btn-primary text-white px-6 py-2.5 rounded-xl text-sm font-semibold">
+              <p className="text-slate-500 text-sm mb-6">Thank you, {form.name}. We'll respond to {form.email} within 24 hours.</p>
+              <button
+                onClick={handleReset}
+                className="btn-primary text-white px-6 py-2.5 rounded-xl text-sm font-semibold"
+              >
                 Send Another Message
               </button>
             </div>
@@ -80,8 +115,19 @@ export default function Contact() {
                   rows={5} placeholder="Describe your query in detail..."
                   className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition resize-none" />
               </div>
-              <button type="submit" className="w-full btn-primary text-white font-semibold py-3.5 rounded-2xl text-sm">
-                Send Message →
+              {error && (
+                <p className="text-sm text-red-500 bg-red-50 px-4 py-3 rounded-xl">{error}</p>
+              )}
+              <button type="submit" disabled={sending} className="w-full btn-primary text-white font-semibold py-3.5 rounded-2xl text-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2">
+                {sending ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                    Sending…
+                  </>
+                ) : 'Send Message →'}
               </button>
             </form>
           )}
